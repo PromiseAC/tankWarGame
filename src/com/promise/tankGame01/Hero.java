@@ -1,4 +1,4 @@
-package com.promise.draw.tankgame;
+package com.promise.tankGame01;
 
 public class Hero extends Tank{
     public Hero(int x, int y) {

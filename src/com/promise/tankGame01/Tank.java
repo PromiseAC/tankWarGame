@@ -1,4 +1,4 @@
-package com.promise.draw.tankgame;
+package com.promise.tankGame01;
 
 public class Tank {
     public int x;  //坦克横坐标

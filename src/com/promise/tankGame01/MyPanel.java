@@ -1,4 +1,4 @@
-package com.promise.draw.tankgame;
+package com.promise.tankGame01;
 
 import javax.swing.*;
 import java.awt.*;
