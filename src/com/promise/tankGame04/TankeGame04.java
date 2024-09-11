@@ -3,15 +3,20 @@ package com.promise.tankGame04;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Scanner;
 
 public class TankeGame04 extends JFrame {
     //定义Mypanel
     MyPanel mp = null;
+    static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
+
         TankeGame04 t = new TankeGame04();
     }
     public TankeGame04() {
-        mp = new MyPanel();
+        System.out.println("请输入选择 1：新游戏 2：继续上局");
+        String key = scanner.next();
+        mp = new MyPanel(key);
         //将mp放入 Thread,并启动
         Thread thread = new Thread(mp);
         thread.start();

@@ -16,6 +16,8 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
     Hero hero = null;
     //定义敌人坦克
     Vector<EnemyTank> enemyTanks = new Vector<>();
+    //定义一个存放Node对象的Vector，用于恢复敌人坦克的坐标方向
+    Vector<Node> nodes = new Vector<>();
     //定义一个Vector，用于存放炸弹
     //当子弹击中坦克时，加入一个Bomb对象到Bombs
     Vector<Bomb> bombs = new Vector<>();
@@ -26,26 +28,57 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
     Image image2 = null;
     Image image3 = null;
 
-    public MyPanel(){
+    public MyPanel(String key){
+        nodes = Recorder.getNodesAndEnemyTankRec();
+        Recorder.setEnemyTanks(enemyTanks);
         hero = new Hero(100, 300);//初始化自己的坦克
-        //初始化敌人的坦克
-        for (int i = 0; i < enemyTankSize; i ++) {
-            EnemyTank enemyTank = new EnemyTank((100 * (i + 1)), 0);
-            //将enemyTanks设置给enemyTank
-            enemyTank.setEnemyTanks((enemyTanks));
-            //设置方向
-            enemyTank.setDirect(2);
-            //启动敌人坦克线程
-            new Thread(enemyTank).start();
-            //给该enemyTank加入一颗子弹
-            Shot shot = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirect());
-            //加入enemyTank坦克的Vector成员
-            //加入到enemyTank的Vector成员
-            enemyTank.shots.add(shot);
-            //启动shot对象
-            new Thread(shot).start();
-            enemyTanks.add(enemyTank);
+        switch (key) {
+            case "1":
+                //初始化敌人的坦克
+                for (int i = 0; i < enemyTankSize; i ++) {
+                    EnemyTank enemyTank = new EnemyTank((100 * (i + 1)), 0);
+                    //将enemyTanks设置给enemyTank
+                    enemyTank.setEnemyTanks((enemyTanks));
+                    //设置方向
+                    enemyTank.setDirect(2);
+                    //启动敌人坦克线程
+                    new Thread(enemyTank).start();
+                    //给该enemyTank加入一颗子弹
+                    Shot shot = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirect());
+                    //加入enemyTank坦克的Vector成员
+                    //加入到enemyTank的Vector成员
+                    enemyTank.shots.add(shot);
+                    //启动shot对象
+                    new Thread(shot).start();
+                    enemyTanks.add(enemyTank);
+                }
+                break;
+            case "2":
+                //初始化敌人的坦克
+                for (int i = 0; i < nodes.size(); i ++) {
+                    Node node = nodes.get(i);
+                    EnemyTank enemyTank = new EnemyTank(node.getX(), node.getY());
+                    //将enemyTanks设置给enemyTank
+                    enemyTank.setEnemyTanks((enemyTanks));
+                    //设置方向
+                    enemyTank.setDirect(node.getDirect());
+                    //启动敌人坦克线程
+                    new Thread(enemyTank).start();
+                    //给该enemyTank加入一颗子弹
+                    Shot shot = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirect());
+                    //加入enemyTank坦克的Vector成员
+                    //加入到enemyTank的Vector成员
+                    enemyTank.shots.add(shot);
+                    //启动shot对象
+                    new Thread(shot).start();
+                    enemyTanks.add(enemyTank);
+                }
+                break;
+            default:
+                System.out.println("输入有误");
+                break;
         }
+
         //初始化图片对象
         image1 = Toolkit.getDefaultToolkit().getImage(MyPanel.class.getResource("/bomb_1.gif"));
         image2 = Toolkit.getDefaultToolkit().getImage(MyPanel.class.getResource("/bomb_2.gif"));
